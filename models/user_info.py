@@ -31,5 +31,4 @@ class UserInfo(Base):
         self.CRR = crr
 
     def __repr__(self):
-        return [self.user_id, self.surname, self.name, self.patronymic, self.role,
-                self.type_organization, self.name_organization, self.ITN, self.CRR]
+        return f'{self.user_id}, {self.surname}, {self.name}, {self.patronymic}, {self.role}, {self.type_organization}, {self.name_organization}, {self.ITN}, {self.CRR}'

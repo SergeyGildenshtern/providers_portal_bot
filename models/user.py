@@ -10,7 +10,6 @@ class User(Base):
     login = Column(String)
     password = Column(String)
     is_admin = Column(Boolean)
-    telegram_id = Column(String)
 
     def __repr__(self):
-        return f'{self.id}, {self.login}, {self.password}, {self.is_admin}, {self.telegram_id}'
+        return f'{self.id}, {self.login}, {self.password}, {self.is_admin}'

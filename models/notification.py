@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
+from sqlalchemy.orm import relationship
 
 from models.database import Base
 
@@ -12,5 +13,7 @@ class Notification(Base):
     description = Column(String)
     is_viewed = Column(Boolean)
 
+    user = relationship('User', backref="notifications")
+
     def __repr__(self):
-        return [self.id, self.user_id, self.title, self.description, self.is_viewed]
+        return f'{self.id}, {self.user_id}, {self.title}, {self.description}, {self.is_viewed}'

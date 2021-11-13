@@ -15,7 +15,7 @@ class Product(Base):
     is_confirmed = Column(Boolean)
     specifications = Column(String)
 
-    productOffers = relationship('offers')
+    user = relationship('User', backref="products")
 
     def __repr__(self):
-        return [self.id, self.user_id, self.name, self.category, self.code, self.isConfirmed, self.specifications]
+        return f'{self.id}, {self.user_id}, {self.name}, {self.category}, {self.code}, {self.is_confirmed}, {self.specifications}'

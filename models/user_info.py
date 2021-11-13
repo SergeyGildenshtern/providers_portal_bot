@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
 
 from models.database import Base
 
@@ -16,6 +17,8 @@ class UserInfo(Base):
     name_organization = Column(String)
     ITN = Column(String)
     CRR = Column(String)
+
+    user = relationship('User', backref="users_info")
 
     def __init__(self, full_name: list[str], role: str, type_organization: str, name_organization: str, itn: str, crr: str):
         self.surname = full_name[0]

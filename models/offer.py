@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, Date, ForeignKey
+from sqlalchemy.orm import relationship
 
 from models.database import Base
 
@@ -15,6 +16,9 @@ class Offer(Base):
     status = Column(String)
     created_at = Column(Date)
 
+    product = relationship('Product', backref="offers")
+    seller = relationship('User', backref="offers")
+    buyer = relationship('User', backref="offers")
+
     def __repr__(self):
-        return [self.id, self.product_id, self.seller_id, self.buyer_id,
-                self.amount, self.quantity, self.status, self.created_at]
+        return f'{self.id}, {self.product_id}, {self.seller_id}, {self.buyer_id}, {self.amount}, {self.quantity}, {self.status}, {self.created_at}'

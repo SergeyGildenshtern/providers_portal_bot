@@ -8,6 +8,7 @@ import telebot
 from models.user import User
 from models.user_info import UserInfo
 from models.product import Product
+from models.offer import Offer
 from models.notification import Notification
 
 
@@ -57,7 +58,7 @@ def print_product(message):
             telebot.types.InlineKeyboardButton('Отклонить', callback_data='reject-product|' + data[0])
         )
         bot.send_message(message.chat.id,
-                         f'ID поставщика: {data[1]}\nНазвание СТЕ: {data[2]}\nКатегория: {data[3]}\nКод КПГЗ: {data[4]}',
+                         f'ID поставщика: {data[1]}\nНазвание СТЕ: {data[2]}\nКатегория: {data[3]}\nКод КПГЗ: {data[4]}\nЦена за ед.: {data[6]}',
                          reply_markup=keyboard)
     else:
         bot.send_message(message.chat.id, 'Нет неподтверждённых СТЕ.')
@@ -91,23 +92,21 @@ def print_user(message):
 
 
 def auth(message):
-    data = message.text.split()
-    session = Session()
-    answer = session.query(User).filter(and_(User.login == data[0]),
-                                        (User.password == data[1]),
-                                        User.is_admin).all()
+    try:
+        data = message.text.split()
+        session = Session()
+        answer = session.query(User).filter(and_(User.login == data[0]),
+                                            (User.password == data[1]),
+                                            User.is_admin).all()
+        session.close()
+    except:
+        answer = None
 
     if answer:
         bot.send_message(message.chat.id, 'Успешная авторизация.', reply_markup=include_main_menu())
 
-        answer = str(answer[0]).split(', ')
-        i = session.query(User).get(int(answer[0]))
-        i.telegram_id = message.chat.id
-        session.add(i)
-        session.commit()
-        session.close()
     else:
-        bot.send_message(message.chat.id, 'Неправильно введён логин или пароль.')
+        bot.send_message(message.chat.id, 'Неправильный логин или пароль.')
         msg = bot.send_message(message.chat.id, 'Введите логин и пароль через пробел.')
         bot.register_next_step_handler(msg, auth)
 

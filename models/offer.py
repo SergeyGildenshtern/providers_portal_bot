@@ -17,8 +17,8 @@ class Offer(Base):
     created_at = Column(Date)
 
     product = relationship('Product', backref="offers")
-    seller = relationship('User', backref="offers")
-    buyer = relationship('User', backref="offers")
+    seller = relationship('User', foreign_keys=[seller_id])
+    buyer = relationship('User', foreign_keys=[buyer_id])
 
     def __repr__(self):
         return f'{self.id}, {self.product_id}, {self.seller_id}, {self.buyer_id}, {self.amount}, {self.quantity}, {self.status}, {self.created_at}'
